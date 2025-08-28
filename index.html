@@ -1,1 +1,238 @@
-<h1>GitHub Pages sudah aktif 🎉</h1><p>Silakan ganti file ini</p>
+<h1>GitHub Pages sudah aktif 🎉</h1><p><!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toko Hewan Peliharaan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #fcf8f4;
+      color: #4e342e;
+    }
+
+    header {
+      background-color: #d7ccc8;
+      padding: 20px 40px;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      color: #5d4037;
+    }
+
+    header p {
+      margin: 8px 0 0;
+      font-size: 1rem;
+      color: #6d4c41;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 20px;
+    }
+
+    .controls input,
+    .controls select {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #a1887f;
+      font-size: 1rem;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 40px;
+    }
+
+    .pet-card {
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.4s ease;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .pet-card.hide {
+      opacity: 0 !important;
+      transform: scale(0.9);
+    }
+
+    .pet-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .pet-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .pet-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .pet-info {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .pet-info h2 {
+      margin: 0;
+      font-size: 1.3rem;
+      color: #5d4037;
+    }
+
+    .pet-info p {
+      margin-top: 8px;
+      font-size: 0.95rem;
+      color: #6d4c41;
+    }
+
+    .adopt-btn {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 20px;
+      background-color: #a1887f;
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .adopt-btn:hover {
+      background-color: #8d6e63;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Toko Hewan Peliharaan</h1>
+    <p>Temukan sahabat terbaikmu di sini</p>
+  </header>
+
+  <section class="controls">
+    <input type="text" id="search" placeholder="Cari hewan...">
+    <select id="filter">
+      <option value="all">Semua</option>
+      <option value="kucing">Kucing</option>
+      <option value="anjing">Anjing</option>
+      <option value="kelinci">Kelinci</option>
+      <option value="burung">Burung</option>
+      <option value="hamster">Hamster</option>
+      <option value="ikan">Ikan</option>
+    </select>
+  </section>
+
+  <main class="gallery" id="gallery">
+    <!-- Cards akan dimuat oleh JavaScript -->
+  </main>
+
+  <script>
+    const pets = [
+      {
+        name: "Kucing Persia",
+        desc: "Ramah, manja, dan berbulu lembut.",
+        img: "https://source.unsplash.com/400x300/?persian-cat",
+        type: "kucing"
+      },
+      {
+        name: "Anjing Golden",
+        desc: "Setia, penuh energi, dan penyayang.",
+        img: "https://source.unsplash.com/400x300/?golden-retriever",
+        type: "anjing"
+      },
+      {
+        name: "Kelinci",
+        desc: "Lucu, tenang, dan cocok untuk keluarga.",
+        img: "https://source.unsplash.com/400x300/?rabbit",
+        type: "kelinci"
+      },
+      {
+        name: "Burung Parrot",
+        desc: "Cerdas dan penuh warna.",
+        img: "https://source.unsplash.com/400x300/?parrot",
+        type: "burung"
+      },
+      {
+        name: "Hamster",
+        desc: "Kecil, lincah, dan menggemaskan.",
+        img: "https://source.unsplash.com/400x300/?hamster",
+        type: "hamster"
+      },
+      {
+        name: "Ikan Cupang",
+        desc: "Indah dengan warna yang mempesona.",
+        img: "https://source.unsplash.com/400x300/?betta-fish",
+        type: "ikan"
+      }
+    ];
+
+    const gallery = document.getElementById('gallery');
+    const searchInput = document.getElementById('search');
+    const filterSelect = document.getElementById('filter');
+
+    function renderPets(list) {
+      gallery.innerHTML = '';
+      list.forEach((pet, index) => {
+        const card = document.createElement('div');
+        card.className = 'pet-card';
+        card.style.animationDelay = `${index * 0.15}s`;
+        card.innerHTML = `
+          <img src="${pet.img}" alt="${pet.name}">
+          <div class="pet-info">
+            <h2>${pet.name}</h2>
+            <p>${pet.desc}</p>
+            <a href="#" class="adopt-btn">Adopsi</a>
+          </div>
+        `;
+        gallery.appendChild(card);
+      });
+    }
+
+    function filterPets() {
+      const searchValue = searchInput.value.toLowerCase();
+      const filterValue = filterSelect.value;
+      const filtered = pets.filter(pet => {
+        const matchesSearch = pet.name.toLowerCase().includes(searchValue);
+        const matchesFilter = filterValue === 'all' || pet.type === filterValue;
+        return matchesSearch && matchesFilter;
+      });
+
+      renderPets(filtered);
+    }
+
+    searchInput.addEventListener('input', filterPets);
+    filterSelect.addEventListener('change', filterPets);
+
+    // initial render
+    renderPets(pets);
+  </script>
+</body>
+
+</html>
+</p>
